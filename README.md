@@ -3,9 +3,9 @@ This is a repository where I am uploading the code to automate sending email rem
 
 ##How to run?
 ```bash
-pip install pandas
+pip install pandas DateTime smtplib ssl
 python send_email.py
 ```
 
 Note: please type in your mail ID and password on line 1 and 2.
-
+~Arghya.
