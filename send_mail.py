@@ -1,5 +1,5 @@
-sender_email = "write your mail ID here"
-password = "write your password here"
+sender_email = "your mail ID"
+password = "your password for mail"
 #switch on the 'less secure app access from google account settings'
 #=TEXTJOIN(",",TRUE,K2,B2,J2)
 #maintain the datetime.date format the same as excel or vice versa
@@ -21,10 +21,22 @@ for ind in data.index:
 
 smtp_server = "smtp.gmail.com"
 port = 587  # For starttls
-message = """\
-Subject: thought of the day for JBSPDF Slack forum
 
-Hi %s, This is just a gentle reminder to post the thought of the day on %s""" % (receiver_name, receiver_day)
+message = """\
+Subject: Invitation to post #thought_of_the_day on JBSPDF Slack forum
+
+Hi %s!
+
+You probably have received an email from jbspdf about the initiative that has been taken to encourage members, especially younger scholars like you to post the #thought_of_the_day. As was mentioned in the email, it can be any "science communication" that you find interesting. This can include latest science news, important scientific concepts, some scientific proof, and more than that. We would like to invite you to post your #thought_of_the_day on %s.
+
+Best,
+Arghya.""" % (receiver_name, receiver_day)
+
+
+#message = """\ 
+#Subject: Invitation to post #thought_of_the_day on JBSPDF Slack forum
+
+#Hi %s, This is just a gentle reminder to post the thought of the day on %s""" % (receiver_name, receiver_day)
 
 # Create a secure SSL context
 context = ssl.create_default_context()
