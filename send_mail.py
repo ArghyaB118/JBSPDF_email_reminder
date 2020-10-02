@@ -1,3 +1,5 @@
+sender_email = "write your mail ID here"
+password = "write your password here"
 #switch on the 'less secure app access from google account settings'
 #=TEXTJOIN(",",TRUE,K2,B2,J2)
 #maintain the datetime.date format the same as excel or vice versa
@@ -19,13 +21,6 @@ for ind in data.index:
 
 smtp_server = "smtp.gmail.com"
 port = 587  # For starttls
-#sender_email = input("Type your own email ID and press enter: ")
-sender_email = "write your mail ID here"
-#password = input("Type your password and press enter: ")
-password = "write your password here"
-
-#receiver_email = "confidentrana118@gmail.com"
-#message = "Subject: Hi there Hi " + receiver_name + ", Please post the thought of the day on " + receiver_day
 message = """\
 Subject: thought of the day for JBSPDF Slack forum
 

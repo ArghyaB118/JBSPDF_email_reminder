@@ -7,3 +7,5 @@ pip install pandas
 python send_email.py
 ```
 
+Note: please type in your mail ID and password on line 1 and 2.
+
