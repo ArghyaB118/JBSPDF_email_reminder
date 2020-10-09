@@ -1,2 +1,3 @@
-day_assigned,mail_id,name,admin
-2020-10-09,confidentrana118@gmail.com,Arghya Bhattacharya,Arghya
+day_assigned,mail_id,name,admin,mail_sent
+2020-10-10,confidentrana118@gmail.com,Arghya Bhattacharya,Arghya,FALSE
+2020-10-15,confidentrana118@gmail.com,Arghya Bhattacharya,Arghya,FALSE
