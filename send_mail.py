@@ -37,11 +37,11 @@ csvfile.close()
 #getting the target dates for sending reminder
 #dates may lie anywhere from 7 days to 30 days from now
 target_dates_first = []
-for i in range(5,7):
+for i in range(9,31):
 	target_dates_first.append(datetime.date.today() + datetime.timedelta(days=i))
 
 target_dates_second = []
-for i in range(3,5):
+for i in range(3,9):
 	target_dates_second.append(datetime.date.today() + datetime.timedelta(days=i))
 
 target_dates_third = []
@@ -86,7 +86,7 @@ try:
 		elif admin == "Subhadeep Dasgupta":
 			admin_email = "mastersubhadeep@gmail.com"
 		elif admin == "Arghya Bhattacharya":
-			admin_email = "iamarghya.1@gmail.com"
+			admin_email = "argbhattacha@cs.stonybrook.edu"
 		for target_date_first in target_dates_first:
 			### first reminder setup
 			if data['day_assigned'][ind] == str(target_date_first):
@@ -118,7 +118,7 @@ And there's no boundary or guidelines for what this can be about - any "science 
 
 %s (cc-ed) is your primary point of contact, so if you want to discuss some specific topics about the forum including #thought_of_the_day, please feel free to do so with %s personally or anyone else in the forum. 
 
-At this point, can you please confirm on the #messages_to_admins channel on Slack (ideally) or by replying to this email that you are accepting this invitation and are willing to post on that day? Please note that this date will be reserved for your #thought_of_the_day posting, and we'll await your post even if you miss to confirm now.
+At this point, can you please confirm on the #messages_to_admins channel on Slack (ideally) or by replying to this email that you are accepting this invitation and are willing to post on that day? If you are unable to post on this date, we shall appreciate it if you let us know of an alternative better timeframe for you. In that case we may reassign this date for someone else. Please note that otherwise this date will be reserved for your #thought_of_the_day posting, and we'll await your post even if you miss to confirm now. 
 
 We'll also send you a couple reminders closer to your posting date.
 
@@ -127,7 +127,7 @@ Looking forward to hearing your #thought_of_the_day from you soon!
 Regards,
 Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver_name, receiver_day, admin, admin)
 							# TODO: Send email here
-						server.sendmail(sender_email, receiver_email, message)
+						server.sendmail(sender_email, receiver_emails, message)
 						sheet.update_cell(receiver_index, 11, "TRUE")
 		for target_date_second in target_dates_second:
 			### second reminder setup
@@ -159,7 +159,7 @@ We'll also send you another reminder a day or two prior to your posting date. Lo
 Regards,
 Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver_name, receiver_day)
 							# TODO: Send email here
-						server.sendmail(sender_email, receiver_email, message)
+						server.sendmail(sender_email, receiver_emails, message)
 						sheet.update_cell(receiver_index, 12, "TRUE")
 		for target_date_third in target_dates_third:
 			### third reminder setup
