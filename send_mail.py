@@ -4,6 +4,8 @@
 import smtplib, ssl
 import datetime
 import pandas as pd
+import getpass
+from termcolor import colored
 today = datetime.date.today()
 print "Operation done on", str(today)
 
@@ -13,6 +15,28 @@ import os
 ### Copy it in a csv named filename.csv
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+
+
+def read_credentials():
+	# Read the credentials from a text file: 'credentials.txt'
+	# The file contains only two lines
+	# Email ID
+	# Password
+	with open('credentials.txt', "r") as cred:
+	    credentials = [line.rstrip() for line in cred]
+	cred.close()
+	sender_email = credentials[0]
+	password = credentials[1]
+	return sender_email, password
+
+def input_credentials():
+	try:
+		sender_email = getpass.getpass(prompt="Enter email: ")
+		password = getpass.getpass(prompt="Enter password: ")
+	except Exception as error:
+	    print('error', error)
+	return sender_email, password
+
 
 # use creds to create a client to interact with the Google Drive API
 scope = ['https://spreadsheets.google.com/feeds',
@@ -51,14 +75,11 @@ for i in range(1,3):
 #read the data file
 data = pd.read_csv("filename.csv")
 
-#read the credentials from a text file
-with open('credentials.txt', "r") as cred:
-    credentials = [line.rstrip() for line in cred]
+#sender_email, password = read_credentials()
+sender_email, password = input_credentials()
 
-sender_email = credentials[0]
-password = credentials[1]
 
-cred.close()
+
 
 #setting up the SMTP server 
 smtp_server = "smtp.gmail.com"
@@ -82,11 +103,13 @@ try:
 		elif admin == "Debarghya Sarkar":
 			admin_email = "debarghyasarkar.ds@gmail.com"
 		elif admin == "Sampurna Mukherjee":
-			admin_email = "sampurnamukherjeebiology@gmail.com"
+			#admin = "Arghya Bhattacharya"
+			#admin_email = "argbhattacha@cs.stonybrook.edu"
+			admin_email = "sampurnamukherjeebiology@gmail.com" #For COVID
 		elif admin == "Subhadeep Dasgupta":
 			admin_email = "mastersubhadeep@gmail.com"
 		elif admin == "Arghya Bhattacharya":
-			admin_email = "argbhattacha@cs.stonybrook.edu"
+			admin_email = "jbspdf.ac@gmail.com"
 		for target_date_first in target_dates_first:
 			### first reminder setup
 			if data['day_assigned'][ind] == str(target_date_first):
@@ -101,31 +124,33 @@ try:
 					if confirm == "y":
 						#compose the text
 						message = """\
-From: jbspdf.ac@gmail.com
+From: Arghya Bhattacharya
 To: %s
-CC: %s
+CC: jbspdf.ac@gmail.com
 Subject: JBSPDF invites your #thought_of_the_day on %s
 
 Dear %s,
 
 Hope this email finds you and your family well.
 
-You must have received an email from JBSPDF about the initiative that has been taken to encourage members, especially younger scholars like you to post the #thought_of_the_day.
-
 We would like to invite you to share your #thought_of_the_day in the #community channel of our Slack workspace on %s.
 
-And there's no boundary or guidelines for what this can be about - any "science communication" that you find interesting. This can include latest science news, important scientific concepts, some scientific proof, and more than that. The only "rule" is to include the phrase #thought_of_the_day in the post, so that everyone knows it's by invitation, and we can search and catalog them later if we wish. Some of our members have already posted their #thoughts_of_the_day which you may want to check out if you missed them earlier.
-
-%s (cc-ed) is your primary point of contact, so if you want to discuss some specific topics about the forum including #thought_of_the_day, please feel free to do so with %s personally or anyone else in the forum. 
-
-At this point, can you please confirm on the #messages_to_admins channel on Slack (ideally) or by replying to this email that you are accepting this invitation and are willing to post on that day? If you are unable to post on this date, we shall appreciate it if you let us know of an alternative better timeframe for you. In that case we may reassign this date for someone else. Please note that otherwise this date will be reserved for your #thought_of_the_day posting, and we'll await your post even if you miss to confirm now. 
+The #thought_of_the_day can be any interesting piece of science news, scientific concepts, science and society, and more than that communicated in a brief read to a broad scientific community.
 
 We'll also send you a couple reminders closer to your posting date.
 
 Looking forward to hearing your #thought_of_the_day from you soon!
 
 Regards,
-Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver_name, receiver_day, admin, admin)
+Arghya.
+(On behalf of JBSPDF)
+
+P.S.: Wondering what #thought_of_the_day can be like? Please check our webpage at https://sites.google.com/view/jbspdf/scholarly-activities/regular-communication/thought_of_the_day. 
+For further queries, please slack me or reply here.
+
+P.P.S.: 
+(a) If you wish to acknowledge acceptance of this request, you may choose to do so by introducing yourself on the #greetings channel of jb-scholars.slack.com.
+(b) If this date doesn't work for you, please let us know of an alternative better timeframe at https://forms.gle/1SB4xmi5Bm7gVNNf6.""" % (receiver_email, receiver_day, receiver_name, receiver_day)
 							# TODO: Send email here
 						server.sendmail(sender_email, receiver_emails, message)
 						sheet.update_cell(receiver_index, 11, "TRUE")
@@ -143,21 +168,27 @@ Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver
 					if confirm == "y":
 						#compose the text
 						message = """\
-From: jbspdf.ac@gmail.com
+From: Arghya Bhattacharya
 To: %s
-CC: %s
+CC: jbspdf.ac@gmail.com
 Subject: Reminder for your #thought_of_the_day on %s
 
 Dear %s,
 
 This is a gentle reminder email that we'll expect your #thought_of_the_day in the #community channel of our Slack workspace on %s.
 
-Just to reiterate, there's no boundary or guidelines for what this can be about - any "science communication" that you find interesting. This can include latest science news, important scientific concepts, some scientific proof, and more than that. The only "rule" is to include the phrase #thought_of_the_day in the post, so that everyone knows it's by invitation, and we can search and catalog them later if we wish. Some of our members have already posted their #thoughts_of_the_day which you may want to check out if you missed them earlier.
+Just to reiterate, this can be a brief read for a broad scientific community on any "science communication" that you find interesting.
+
+Please just include #thought_of_the_day in your post, so that everyone knows it's by invitation, and we can search and catalog them later if we wish.
 
 We'll also send you another reminder a day or two prior to your posting date. Looking forward to hearing your #thought_of_the_day from you soon!
 
 Regards,
-Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver_name, receiver_day)
+Arghya.
+(On behalf of JBSPDF)
+
+P.S.: More questions on #thought_of_the_day? Please check our webpage at https://sites.google.com/view/jbspdf/scholarly-activities/regular-communication/thought_of_the_day. 
+For further queries, please slack me or reply here.""" % (receiver_email, receiver_day, receiver_name, receiver_day)
 							# TODO: Send email here
 						server.sendmail(sender_email, receiver_emails, message)
 						sheet.update_cell(receiver_index, 12, "TRUE")
@@ -176,21 +207,23 @@ Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver
 					if confirm == "y":
 						#compose the text
 						message = """\
-From: jbspdf.ac@gmail.com
+From: Arghya Bhattacharya
 To: %s
-CC: %s
+CC: jbspdf.ac@gmail.com
 Subject: Reminder for your #thought_of_the_day on %s
 
 Dear %s,
 
 This is another brief reminder email that we'll expect your #thought_of_the_day in the #community channel of our Slack workspace on %s.
 
-%s (cc-ed) is your primary point of contact, so if you want to discuss some specific topics about the forum including #thought_of_the_day, please feel free to do so with %s personally or anyone else in the forum. 
-
 Awaiting to hearing your #thought_of_the_day from you soon!
 
 Regards,
-Your Friends at JBSPDF""" % (receiver_email, admin_email, receiver_day, receiver_name, receiver_day, admin, admin)
+Arghya.
+(On behalf of JBSPDF)
+
+P.S.: More questions on #thought_of_the_day? Please check our webpage at https://sites.google.com/view/jbspdf/scholarly-activities/regular-communication/thought_of_the_day. 
+For further queries, please slack me or reply here.""" % (receiver_email, receiver_day, receiver_name, receiver_day)
 							# TODO: Send email here
 						server.sendmail(sender_email, receiver_emails, message)
 						sheet.update_cell(receiver_index, 13, "TRUE")
